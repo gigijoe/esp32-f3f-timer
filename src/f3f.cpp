@@ -279,9 +279,13 @@ static void IdleState_OnKey(uint8_t key, uint32_t ms_tick)
           s_headLineCb(s_headLine);
         }
         }  break;
-    case KEY_BASE_A: lcdPrintRow(0, "<A%04d>", serNoA);
+    case KEY_BASE_A: 
+        if(s_headLine == showCpuUsage) 
+          lcdPrintRow(0, "<A%04d>", serNoA);
         break;
-    case KEY_BASE_B: lcdPrintRow(0, "<B%04d>", serNoB);
+    case KEY_BASE_B: 
+        if(s_headLine == showCpuUsage) 
+          lcdPrintRow(0, "<B%04d>", serNoB);
         break;
     case KEY_A:
         switch(s_headLine) {

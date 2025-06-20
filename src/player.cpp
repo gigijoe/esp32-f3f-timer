@@ -69,7 +69,7 @@ void Mp3Player_Init(void)
     audio.setPinout(I2S_BCLK, I2S_LRC, I2S_DOUT);
   
     // Set Volume
-    audio.setVolume(15);
+    audio.setVolume(21); // default 0...21
   
 	eventQueue = xQueueCreate(32, sizeof(uint8_t));
 	mp3ContextQueue = xQueueCreate(16, sizeof(Mp3Context *));

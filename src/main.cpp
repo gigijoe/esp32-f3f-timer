@@ -410,6 +410,7 @@ void setup() {
   if(!SD.begin(SD_CS, SPI, 40000000))
   {
     Serial.println("Error accessing microSD card!");
+    lcdPrintRow(1, "  !!! SD Error !!!  ");
     while(true); 
   }
 
@@ -439,6 +440,7 @@ void setup() {
         break;
     }
   });
+
   xTaskCreatePinnedToCore(
     F3F_Task,      // Function that should be called
     "F3F_Task",    // Name of the task (for debugging)
