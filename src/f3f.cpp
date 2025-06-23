@@ -289,6 +289,15 @@ static void IdleState_OnKey(uint8_t key, uint32_t ms_tick)
         break;
     case KEY_A:
         switch(s_headLine) {
+          case showF3fMode: {
+            if(F3F_Mode() == f3fCompetition) {
+              F3F_Mode(f3fTraining);
+              lcdPrintRow(0, "F3F Training");
+            } else if(F3F_Mode() == f3fTraining) {
+              F3F_Mode(f3fCompetition);
+              lcdPrintRow(0, "F3F Competition");
+            }
+          } break;
           case showVolume:
             if(Mp3Player_GetVolume() < 0xff)
               Mp3Player_SetVolume(Mp3Player_GetVolume() + 1);
@@ -299,6 +308,8 @@ static void IdleState_OnKey(uint8_t key, uint32_t ms_tick)
         } break;
     case KEY_B:
         switch(s_headLine) {
+          case showF3fMode:
+            break;
           case showVolume:
             if(Mp3Player_GetVolume() > 0)
               Mp3Player_SetVolume(Mp3Player_GetVolume() - 1);
@@ -645,6 +656,15 @@ static void FinishState_OnKey(uint8_t key, uint32_t ms_tick)
       currentState = &idleState;
       currentState->OnEnter(ms_tick);
       break;
+    case KEY_BASE_B:
+      if(F3F_Mode() == f3fTraining) {
+        Mp3Player_Stop();
+        Mp3Player_Reset();
+        Mp3Player_Play("vocal/go.mp3");
+        currentState = &thirtySecondState;
+        currentState->OnEnter(ms_tick);
+      }
+      break;
   }
 }
 
@@ -922,4 +942,16 @@ void F3F_TiggleBaseB(uint32_t serNo)
 const char *F3F_LastRecord()
 {
   return strLastRecord;
+}
+
+static F3fMode s_f3fMode = f3fTraining;
+
+F3fMode F3F_Mode()
+{
+  return s_f3fMode;
+}
+
+void F3F_Mode(F3fMode mode)
+{
+  s_f3fMode = mode;
 }

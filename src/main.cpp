@@ -427,11 +427,19 @@ void setup() {
           lcdPrintRow(1, "IP: %s", WiFi.localIP().toString());        
         }
         break;
-      case showWindData:
-        lcdPrintRow(0, "Wind speed & range  ");
-        break;
       case showLastRecord:
         lcdPrintRow(0, "Last record %s", F3F_LastRecord());
+        break;
+      case showF3fMode:
+        switch(F3F_Mode()) {
+          case f3fCompetition:  lcdPrintRow(0, "F3F Competition");
+            break;
+          case f3fTraining: lcdPrintRow(0, "F3F Training");
+            break;
+        }
+        break;
+      case showWindData:
+        lcdPrintRow(0, "Wind speed & range  ");
         break;
       case showVolume: 
         lcdPrintRow(0, "Volume : %d dbm", Mp3Player_GetVolume());
