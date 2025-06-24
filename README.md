@@ -2,6 +2,8 @@
 This is a open source F3F timer base on ESP32 MCU. It supports wire / wifi / CRSF Base A/B trigger input.
 Voice report & external buzzer supoort for minimize delay of audio report.
 
+![](https://github.com/gigijoe/esp32-f3f-timer/blob/main/timer.jpg)
+
 ### Hardware
 - ESP32 MCU
 - Micro SD slot
@@ -22,4 +24,5 @@ Voice report & external buzzer supoort for minimize delay of audio report.
 - Support wire Base A/B trigger
 - Support CRSF Base A/B trigger
 - LCD display Wifi status / timer / volume adjusted / Base A/B trigger
+
 
