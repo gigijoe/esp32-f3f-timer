@@ -25,4 +25,13 @@ Voice report & external buzzer supoort for minimize delay of audio report.
 - Support CRSF Base A/B trigger
 - LCD display Wifi status / timer / volume adjusted / Base A/B trigger
 
+### Buttons
+- [ Stop ] / [ B- ] / [ A+ ] / [ Start ] Buttons
+
+## Idle State
+- Wifi Status Page
+- Last Record Page
+- F3F Mode Page - F3F Training / F3F Competition mode switch by [ A+ ] Button
+- Wind Data Page
+- Volume Page - Adjust volume by [ A+ ] / [ B- ] Buttons
 
