@@ -135,14 +135,14 @@ crsfB.update();
         Serial.printf("<A%04u>\r\n", serNoA % 10000);
         F3F_TiggleBaseA(serNoA++);
         yield();
-        buzzerStart();
+        //buzzerStart();
       }
 
       if(crsfB.rcToUs(crsfB.getChannel(1)) == 2000) {
         Serial.printf("<B%04u>\r\n", serNoB % 10000);
         F3F_TiggleBaseB(serNoB++);
         yield();
-        buzzerStart();
+        //buzzerStart();
       }
       lastPrint = timeNow;
     }
@@ -167,6 +167,8 @@ void WiFiStationConnected(WiFiEvent_t event, WiFiEventInfo_t info)
   Serial.println("Connected to AP successfully!");
 }
  
+HeadLineType s_headLine = showCpuUsage;
+
 void WiFiGotIP(WiFiEvent_t event, WiFiEventInfo_t info)
 {
   Serial.println("WiFi connected");
@@ -177,9 +179,10 @@ void WiFiGotIP(WiFiEvent_t event, WiFiEventInfo_t info)
   Serial.print("SSID: ");
   Serial.println(WiFi.SSID());
 
-  lcdPrintRow(0, "AP: %s (%d)", WiFi.SSID(), WiFi.RSSI());
-  lcdPrintRow(1, "IP: %s", WiFi.localIP().toString());
-
+  if(s_headLine == showCpuUsage) {
+    lcdPrintRow(0, "AP: %s (%d)", WiFi.SSID(), WiFi.RSSI());
+    lcdPrintRow(1, "IP: %s", WiFi.localIP().toString());
+  }
   // print the MAC address of the router you're attached to:
   byte bssid[6];
   WiFi.BSSID(bssid);
@@ -236,7 +239,7 @@ void WiFiGotIP(WiFiEvent_t event, WiFiEventInfo_t info)
             buf[4] = 0;
             uint32_t serNo = atoi((const char *)buf) % 10000;
             if(serNo != serNoA) {
-              buzzerStart();
+              //buzzerStart();
               F3F_TiggleBaseA(serNo);
               yield();
               serNoA = serNo;              
@@ -247,7 +250,7 @@ void WiFiGotIP(WiFiEvent_t event, WiFiEventInfo_t info)
             buf[4] = 0;
             uint32_t serNo = atoi((const char *)buf) % 10000;
             if(serNo != serNoB) {
-              buzzerStart();
+              //buzzerStart();
               F3F_TiggleBaseB(serNo);
               yield();
               serNoB = serNo;
@@ -277,10 +280,12 @@ void WiFiStationDisconnected(WiFiEvent_t event, WiFiEventInfo_t info)
   //WiFi.begin(ssid[apIndex], password[apIndex]);
   WiFi.STA.connect(ssid[apIndex], password[apIndex]);
 
-  lcdPrintRow(0, "AP: %s", ssid[apIndex]);
-  lcdPrintRow(1, "Connecting ...");
+  if(s_headLine == showCpuUsage) {
+    lcdPrintRow(0, "AP: %s", ssid[apIndex]);
+    lcdPrintRow(1, "Connecting ...");
+  }
 }
- 
+
 void mcastSetup()
 {
   Serial.begin(115200);
@@ -339,15 +344,15 @@ void mcastSetup()
 
   WiFi.STA.connect(ssid[apIndex], password[apIndex]);
 
-  lcdPrintRow(0, "AP: %s", ssid[apIndex]);
-  lcdPrintRow(1, "Connecting ...");
-  
+  if(s_headLine == showCpuUsage) {
+    lcdPrintRow(0, "AP: %s", ssid[apIndex]);
+    lcdPrintRow(1, "Connecting ...");
+  }
+
   Serial.println();
   Serial.println();
   Serial.println("Wait for WiFi... ");
 }
-
-HeadLineType s_headLine = showCpuUsage;
 
 void mcastLoop(){
   static uint32_t lastTime = 0;
@@ -482,13 +487,13 @@ void loop() {
   }
 
   if(digitalRead(BASE_A) == LOW) {
-    buzzerStart();
+    //buzzerStart();
     F3F_KeyBaseA();
     yield();
   }
 
   if(digitalRead(BASE_B) == LOW) {
-    buzzerStart();
+    //buzzerStart();
     F3F_KeyBaseB();
     yield();
   }

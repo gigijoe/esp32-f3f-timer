@@ -1,6 +1,8 @@
 #include <Arduino.h>
 #include "f3f.h"
 
+extern void buzzerStart();
+
 xQueueHandle keyPressQueue;
 
 #define MS_TIMER_RESET (0)
@@ -280,10 +282,12 @@ static void IdleState_OnKey(uint8_t key, uint32_t ms_tick)
         }
         }  break;
     case KEY_BASE_A: 
+        buzzerStart();
         if(s_headLine == showCpuUsage) 
           lcdPrintRow(0, "<A%04d>", serNoA);
         break;
     case KEY_BASE_B: 
+        buzzerStart();
         if(s_headLine == showCpuUsage) 
           lcdPrintRow(0, "<B%04d>", serNoB);
         break;
@@ -372,6 +376,7 @@ static void ThirtySecondState_OnKey(uint8_t key, uint32_t ms_tick)
       currentState->OnEnter(ms_tick);
       break;
     case KEY_BASE_A:
+      buzzerStart();
       if(thirtySecondOutSide) {
         currentState = &courseState;
         currentState->OnEnter(ms_tick);
@@ -478,11 +483,13 @@ static void CourseState_OnKey(uint8_t key, uint32_t ms_tick)
       break;
     case KEY_BASE_A:
       if(thirtySecondOutSide == false) {
+        buzzerStart();
         lcdPrintRow(2, strOutSide);
         Mp3Player_PlayPriority("vocal/outside.mp3");
         thirtySecondOutSide = true;
       } else {
         if(courseProgressCount % 2 == 0) {
+          buzzerStart();
           if(courseProgressCount == 10) {
             Mp3Player_PlayPriority("vocal/rE.mp3");
             MsTimer_Stop(&stateTimer);
@@ -499,6 +506,7 @@ static void CourseState_OnKey(uint8_t key, uint32_t ms_tick)
       break;
     case KEY_BASE_B:
       if(courseProgressCount % 2 == 1) {
+        buzzerStart();
         if(courseProgressCount == 9)
           Mp3Player_PlayPriority("vocal/rFinal.mp3");
         else
